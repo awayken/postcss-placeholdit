@@ -1,0 +1,33 @@
+{
+  "name": "postcss-placeholdit",
+  "version": "0.0.0",
+  "description": "PostCSS plugin that uses the placehold.it service to placehold broken background images.",
+  "keywords": [
+    "postcss",
+    "css",
+    "postcss-plugin",
+    "placeholder",
+    "images"
+  ],
+  "author": "Miles Rausch <miles@milesrausch.com>",
+  "license": "MIT",
+  "repository": "awayken/postcss-placeholdit",
+  "bugs": {
+    "url": "https://github.com/awayken/postcss-placeholdit/issues"
+  },
+  "homepage": "https://github.com/awayken/postcss-placeholdit",
+  "dependencies": {
+    "postcss": "^5.0.21"
+  },
+  "devDependencies": {
+    "ava": "^0.14.0",
+    "eslint": "^2.10.0",
+    "eslint-config-postcss": "^2.0.2"
+  },
+  "scripts": {
+    "test": "ava && eslint *.js"
+  },
+  "eslintConfig": {
+    "extends": "eslint-config-postcss/es5"
+  }
+}
