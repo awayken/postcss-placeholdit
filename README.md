@@ -1,6 +1,6 @@
 # PostCSS Placeholdit [![Build Status][ci-img]][ci]
 
-[PostCSS] plugin that uses the placehold.it service to placehold broken background images..
+[PostCSS] plugin that uses the placehold.it service as a placeholder for broken background images.
 
 [PostCSS]: https://github.com/postcss/postcss
 [ci-img]:  https://travis-ci.org/awayken/postcss-placeholdit.svg
