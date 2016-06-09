@@ -1,13 +1,46 @@
 var postcss = require('postcss');
+var request = require('request');
 
-module.exports = postcss.plugin('postcss-placeholdit', function (opts) {
-    opts = opts || {};
+module.exports = postcss.plugin('postcss-placeholdit', function ( opts ) {
+    opts = opts || {
+        domain: 'http://localhost'
+    };
 
-    // Work with options here
+    return function ( css ) {
+        return new Promise(function ( resolve ) {
+            css.walkDecls(function ( decl ) {
+                var REplaceholder = /placeholdit\((.+),(.+)\)/;
+                var valueMatch = decl.value.match( REplaceholder );
 
-    return function (css, result) {
+                if ( valueMatch ) {
+                    var intendedImage = valueMatch[1];
+                    var placeholder = intendedImage;
+                    var backgroundImage = intendedImage;
 
-        // Transform CSS AST here
+                    var placeholderMatch = valueMatch[2].match(/\d+x\d+/);
+                    if ( placeholderMatch ) {
+                        placeholder = '"https://placehold.it/' +
+                            placeholderMatch[0] + '"';
+                    }
 
+                    if ( intendedImage.indexOf('http') === -1 ) {
+                        intendedImage = opts.domain + intendedImage;
+                    }
+
+                    request.get( intendedImage.replace(/'|"/g, ''),
+                        function ( error, response ) {
+                            if ( !error && response.statusCode === 200 ) {
+                                decl.value = 'url(' + backgroundImage + ')';
+                            } else {
+                                decl.value = 'url(' + placeholder + ')';
+                            }
+                            resolve();
+                        });
+
+                } else {
+                    resolve();
+                }
+            });
+        });
     };
 });
