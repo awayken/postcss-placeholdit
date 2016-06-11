@@ -7,6 +7,7 @@ module.exports = postcss.plugin('postcss-placeholdit', function ( opts ) {
     };
 
     return function ( css ) {
+
         return new Promise(function ( resolve ) {
             css.walkDecls(function ( decl ) {
                 var REplaceholder = /placeholdit\((.+),(.+)\)/;
@@ -23,24 +24,29 @@ module.exports = postcss.plugin('postcss-placeholdit', function ( opts ) {
                             placeholderMatch[0] + '"';
                     }
 
+                    intendedImage = intendedImage.replace(/'|"/g, '');
                     if ( intendedImage.indexOf('http') === -1 ) {
                         intendedImage = opts.domain + intendedImage;
                     }
 
-                    request.get( intendedImage.replace(/'|"/g, ''),
-                        function ( error, response ) {
-                            if ( !error && response.statusCode === 200 ) {
-                                decl.value = 'url(' + backgroundImage + ')';
-                            } else {
-                                decl.value = 'url(' + placeholder + ')';
-                            }
-                            resolve();
-                        });
+                    var requestImage = function ( error, response ) {
+                        if ( !error && response.statusCode === 200 ) {
+                            decl.value = 'url(' + backgroundImage + ')';
+                        } else {
+                            decl.value = 'url(' + placeholder + ')';
+                        }
+
+                        resolve();
+                    };
+
+                    request.get( intendedImage, requestImage );
 
                 } else {
                     resolve();
                 }
             });
         });
+
     };
+
 });
