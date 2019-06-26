@@ -21,7 +21,7 @@
     "request": "^2.72.0"
   },
   "devDependencies": {
-    "ava": "^0.14.0",
+    "ava": "^2.1.0",
     "eslint": "^2.10.0",
     "eslint-config-postcss": "^2.0.2"
   },
