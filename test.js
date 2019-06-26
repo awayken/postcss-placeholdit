@@ -11,7 +11,7 @@ function run(t, input, output, opts = { }) {
         });
 }
 
-test('replace broken image with placeholder image', t => {
+test('replace broken local image with placeholder image', t => {
     return run(t,
 'div{ background-image: placeholdit("/images/background.jpg", "400x400"); }',
 'div{ background-image: url("https://placehold.it/400x400"); }'
